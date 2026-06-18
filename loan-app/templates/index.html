@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}CréditoFácil — Préstamos rápidos y seguros{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<div class="text-center py-16">
+  <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Préstamos personales <span class="text-blue-600">sin complicaciones</span></h1>
+  <p class="text-lg text-gray-500 mb-8 max-w-xl mx-auto">Solicita tu crédito en minutos, recibe una respuesta rápida y consulta tu plan de cuotas detallado.</p>
+  <div class="flex justify-center gap-4 flex-wrap">
+    <a href="{{ url_for('register') }}" class="bg-blue-600 text-white px-8 py-3 rounded-xl text-lg font-semibold hover:bg-blue-700 transition shadow">Solicitar ahora</a>
+    <a href="{{ url_for('login') }}" class="border border-gray-300 text-gray-700 px-8 py-3 rounded-xl text-lg font-semibold hover:bg-gray-100 transition">Iniciar sesión</a>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <div class="text-4xl mb-3">⚡</div>
+    <h3 class="font-bold text-gray-800 mb-2">Respuesta rápida</h3>
+    <p class="text-gray-500 text-sm">Nuestro equipo revisa tu solicitud y te notifica en el menor tiempo posible.</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <div class="text-4xl mb-3">📊</div>
+    <h3 class="font-bold text-gray-800 mb-2">Plan de cuotas claro</h3>
+    <p class="text-gray-500 text-sm">Generamos automáticamente tu tabla de amortización con capital, interés y saldo.</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <div class="text-4xl mb-3">🔒</div>
+    <h3 class="font-bold text-gray-800 mb-2">100% seguro</h3>
+    <p class="text-gray-500 text-sm">Tus datos están protegidos. Accede a tu cuenta en cualquier momento.</p>
+  </div>
+</div>
+
+<!-- Steps -->
+<div class="mt-16 text-center">
+  <h2 class="text-2xl font-bold text-gray-800 mb-8">¿Cómo funciona?</h2>
+  <div class="flex flex-col md:flex-row justify-center gap-6">
+    {% for step in [("1","Regístrate","Crea tu cuenta gratis en menos de 1 minuto."),("2","Solicita","Ingresa el monto y plazo que necesitas."),("3","Espera aprobación","Revisamos y te respondemos rápidamente."),("4","Recibe tu plan","Con la aprobación obtienes tu tabla de cuotas.")] %}
+    <div class="flex-1 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+      <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-3">{{ step[0] }}</div>
+      <h4 class="font-semibold text-gray-800 mb-1">{{ step[1] }}</h4>
+      <p class="text-gray-500 text-sm">{{ step[2] }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CreditoFácil{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50:'#eff6ff', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8' } } } }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="{{ url_for('index') }}" class="text-xl font-bold text-blue-600">💰 CréditoFácil</a>
+      <div class="flex items-center gap-4 text-sm">
+        {% if current_user.is_authenticated %}
+          <span class="text-gray-600">Hola, <strong>{{ current_user.name }}</strong>
+            {% if current_user.is_admin %}<span class="ml-1 bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Admin</span>{% endif %}
+          </span>
+          {% if current_user.is_admin %}
+            <a href="{{ url_for('admin_dashboard') }}" class="text-gray-600 hover:text-blue-600">Panel</a>
+          {% else %}
+            <a href="{{ url_for('dashboard') }}" class="text-gray-600 hover:text-blue-600">Mis préstamos</a>
+            <a href="{{ url_for('apply') }}" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition">Solicitar</a>
+          {% endif %}
+          <a href="{{ url_for('logout') }}" class="text-gray-500 hover:text-red-500">Salir</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="text-gray-600 hover:text-blue-600">Iniciar sesión</a>
+          <a href="{{ url_for('register') }}" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition">Registrarse</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash messages -->
+  <div class="max-w-6xl mx-auto px-4 pt-4 w-full">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="mb-3 px-4 py-3 rounded-lg text-sm font-medium
+          {% if category == 'success' %}bg-green-100 text-green-800 border border-green-200
+          {% elif category == 'danger' %}bg-red-100 text-red-800 border border-red-200
+          {% elif category == 'warning' %}bg-yellow-100 text-yellow-800 border border-yellow-200
+          {% else %}bg-blue-100 text-blue-800 border border-blue-200{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endwith %}
+  </div>
+
+  <!-- Content -->
+  <main class="flex-1 max-w-6xl mx-auto px-4 py-6 w-full">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="text-center text-xs text-gray-400 py-6 border-t border-gray-200 mt-8">
+    © 2026 CréditoFácil · Todos los derechos reservados
+  </footer>
+</body>
+</html>
