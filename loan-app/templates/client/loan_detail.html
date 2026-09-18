@@ -43,9 +43,7 @@
   </div>
   <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
     <p class="text-gray-500 text-sm mb-1">Total a pagar</p>
-    <p class="text-3xl font-extrabold text-gray-800">{{ (loan.total_payment)|cop }}</p>
-    <p class="text-xs text-gray-400 mt-1">Incluye {{ (loan.installments|sum(attribute='interest'))|cop }} de intereses y {{ (loan.installments|sum(attribute='fee'))|cop }} de cuota de manejo</p>
-  </div>
+    <p class="text-3xl font-extrabold text-gray-800">{{ (loan.total_payment)|cop }}</p>  </div>
 </div>
 
 <!-- Tabla de cuotas -->
