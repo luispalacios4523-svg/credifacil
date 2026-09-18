@@ -9,11 +9,10 @@
 </div>
 
 <!-- Resumen -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
   {% set cards = [
     ("Monto solicitado", (loan.amount)|cop, "💵"),
     ("Plazo", "%d meses"|format(loan.term_months), "📅"),
-    ("Interés mensual", "%.1f%%"|format(loan.monthly_rate), "📈"),
     ("Estado", loan.status, "🔖"),
   ] %}
   {% for label, value, icon in cards %}
