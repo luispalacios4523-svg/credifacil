@@ -21,6 +21,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
+MONTHLY_RATE = 4.0     # interés mensual (%)
+HANDLING_FEE = 30000   # cuota de manejo mensual (COP)
+
 
 @app.template_filter("cop")
 def format_cop(value):
@@ -154,8 +157,8 @@ def apply():
 
             if amount < 300000 or amount > 3000000:
                 flash("El monto debe estar entre $300.000 y $3.000.000.", "danger")
-            elif term < 1 or term > 60:
-                flash("El plazo debe estar entre 1 y 60 meses.", "danger")
+            elif term < 1 or term > 6:
+                flash("El plazo debe estar entre 1 y 6 meses.", "danger")
             elif not purpose:
                 flash("Debes indicar el propósito del préstamo.", "danger")
             else:
@@ -164,7 +167,8 @@ def apply():
                     amount=amount,
                     term_months=term,
                     purpose=purpose,
-                    annual_rate=18.0,
+                    monthly_rate=MONTHLY_RATE,
+                    handling_fee=HANDLING_FEE,
                 )
                 db.session.add(loan)
                 db.session.commit()
@@ -216,7 +220,7 @@ def admin_loan_detail(loan_id):
     if request.method == "POST":
         action = request.form.get("action")
         note = request.form.get("admin_note", "").strip()
-        rate = request.form.get("annual_rate")
+        rate = request.form.get("monthly_rate")
 
         if action not in ("approve", "reject"):
             flash("Acción inválida.", "danger")
@@ -228,12 +232,12 @@ def admin_loan_detail(loan_id):
 
             if action == "approve":
                 try:
-                    loan.annual_rate = float(rate) if rate else 18.0
+                    loan.monthly_rate = float(rate) if rate else MONTHLY_RATE
                 except ValueError:
-                    loan.annual_rate = 18.0
+                    loan.monthly_rate = MONTHLY_RATE
 
                 monthly, total, plan = calculate_amortization(
-                    loan.amount, loan.annual_rate, loan.term_months
+                    loan.amount, loan.monthly_rate, loan.term_months, loan.handling_fee
                 )
                 loan.monthly_payment = monthly
                 loan.total_payment = total
@@ -247,6 +251,7 @@ def admin_loan_detail(loan_id):
                         amount=inst["amount"],
                         principal=inst["principal"],
                         interest=inst["interest"],
+                        fee=inst["fee"],
                         balance=inst["balance"],
                     )
                     db.session.add(installment)

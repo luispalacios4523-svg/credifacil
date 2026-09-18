@@ -23,7 +23,8 @@ class LoanApplication(db.Model):
     amount = db.Column(db.Float, nullable=False)
     term_months = db.Column(db.Integer, nullable=False)
     purpose = db.Column(db.String(300), nullable=False)
-    annual_rate = db.Column(db.Float, default=18.0)  # porcentaje
+    monthly_rate = db.Column(db.Float, default=4.0)  # porcentaje mensual
+    handling_fee = db.Column(db.Float, default=30000)  # cuota de manejo mensual
     status = db.Column(db.String(20), default="pending")  # pending / approved / rejected
     admin_note = db.Column(db.String(500))
     monthly_payment = db.Column(db.Float)
@@ -42,6 +43,7 @@ class LoanInstallment(db.Model):
     amount = db.Column(db.Float, nullable=False)       # cuota total
     principal = db.Column(db.Float, nullable=False)    # capital
     interest = db.Column(db.Float, nullable=False)     # interés
+    fee = db.Column(db.Float, nullable=False, default=0)  # cuota de manejo
     balance = db.Column(db.Float, nullable=False)      # saldo tras pago
     paid = db.Column(db.Boolean, default=False)
     paid_at = db.Column(db.DateTime)
