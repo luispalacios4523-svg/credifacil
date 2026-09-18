@@ -16,7 +16,7 @@
   <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col md:flex-row md:items-center gap-4">
     <div class="flex-1">
       <div class="flex items-center gap-3 mb-1">
-        <span class="text-lg font-bold text-gray-800">${{ "%.2f"|format(loan.amount) }}</span>
+        <span class="text-lg font-bold text-gray-800">{{ (loan.amount)|cop }}</span>
         <span class="text-xs px-2.5 py-1 rounded-full font-medium
           {% if loan.status == 'approved' %}bg-green-100 text-green-700
           {% elif loan.status == 'rejected' %}bg-red-100 text-red-700
@@ -32,7 +32,7 @@
     <div class="text-right">
       {% if loan.status == 'approved' %}
         <p class="text-sm text-gray-500">Cuota mensual</p>
-        <p class="text-xl font-bold text-blue-600">${{ "%.2f"|format(loan.monthly_payment) }}</p>
+        <p class="text-xl font-bold text-blue-600">{{ (loan.monthly_payment)|cop }}</p>
       {% endif %}
       <a href="{{ url_for('loan_detail', loan_id=loan.id) }}" class="mt-2 inline-block text-sm text-blue-600 hover:underline">Ver detalle →</a>
     </div>

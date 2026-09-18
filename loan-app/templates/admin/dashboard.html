@@ -60,7 +60,7 @@
             <div class="font-medium text-gray-800">{{ loan.user.name }}</div>
             <div class="text-xs text-gray-400">{{ loan.user.email }}</div>
           </td>
-          <td class="px-4 py-3 text-right font-semibold text-gray-800">${{ "%.2f"|format(loan.amount) }}</td>
+          <td class="px-4 py-3 text-right font-semibold text-gray-800">{{ (loan.amount)|cop }}</td>
           <td class="px-4 py-3 text-center text-gray-600">{{ loan.term_months }}m</td>
           <td class="px-4 py-3 text-gray-600 max-w-xs truncate">{{ loan.purpose }}</td>
           <td class="px-4 py-3 text-center">

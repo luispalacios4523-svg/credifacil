@@ -11,7 +11,7 @@
 <!-- Resumen -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
   {% set cards = [
-    ("Monto solicitado", "$%.2f"|format(loan.amount), "💵"),
+    ("Monto solicitado", (loan.amount)|cop, "💵"),
     ("Plazo", "%d meses"|format(loan.term_months), "📅"),
     ("Tasa anual", "%.1f%%"|format(loan.annual_rate), "📈"),
     ("Estado", loan.status, "🔖"),
@@ -39,12 +39,12 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
   <div class="bg-blue-600 text-white rounded-2xl p-5">
     <p class="text-blue-200 text-sm mb-1">Cuota mensual</p>
-    <p class="text-3xl font-extrabold">${{ "%.2f"|format(loan.monthly_payment) }}</p>
+    <p class="text-3xl font-extrabold">{{ (loan.monthly_payment)|cop }}</p>
   </div>
   <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
     <p class="text-gray-500 text-sm mb-1">Total a pagar</p>
-    <p class="text-3xl font-extrabold text-gray-800">${{ "%.2f"|format(loan.total_payment) }}</p>
-    <p class="text-xs text-gray-400 mt-1">Incluye ${{ "%.2f"|format(loan.total_payment - loan.amount) }} en intereses</p>
+    <p class="text-3xl font-extrabold text-gray-800">{{ (loan.total_payment)|cop }}</p>
+    <p class="text-xs text-gray-400 mt-1">Incluye {{ (loan.total_payment - loan.amount)|cop }} en intereses</p>
   </div>
 </div>
 
@@ -72,10 +72,10 @@
         <tr class="hover:bg-gray-50 {% if inst.paid %}opacity-60{% endif %}">
           <td class="px-4 py-3 font-medium text-gray-600">{{ inst.number }}</td>
           <td class="px-4 py-3 text-gray-600">{{ inst.due_date.strftime('%d/%m/%Y') }}</td>
-          <td class="px-4 py-3 text-right font-semibold text-gray-800">${{ "%.2f"|format(inst.amount) }}</td>
-          <td class="px-4 py-3 text-right text-gray-600">${{ "%.2f"|format(inst.principal) }}</td>
-          <td class="px-4 py-3 text-right text-orange-600">${{ "%.2f"|format(inst.interest) }}</td>
-          <td class="px-4 py-3 text-right text-gray-500">${{ "%.2f"|format(inst.balance) }}</td>
+          <td class="px-4 py-3 text-right font-semibold text-gray-800">{{ (inst.amount)|cop }}</td>
+          <td class="px-4 py-3 text-right text-gray-600">{{ (inst.principal)|cop }}</td>
+          <td class="px-4 py-3 text-right text-orange-600">{{ (inst.interest)|cop }}</td>
+          <td class="px-4 py-3 text-right text-gray-500">{{ (inst.balance)|cop }}</td>
           <td class="px-4 py-3 text-center">
             {% if inst.paid %}
               <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Pagado</span>

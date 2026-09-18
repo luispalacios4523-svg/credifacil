@@ -21,6 +21,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
+
+@app.template_filter("cop")
+def format_cop(value):
+    """Formato de pesos colombianos: 1500000 -> $1.500.000"""
+    return "$" + f"{value:,.0f}".replace(",", ".")
+
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message = "Debes iniciar sesión para acceder."
@@ -146,8 +152,8 @@ def apply():
             term = int(request.form.get("term_months", 0))
             purpose = request.form.get("purpose", "").strip()
 
-            if amount < 100 or amount > 500000:
-                flash("El monto debe estar entre $100 y $500,000.", "danger")
+            if amount < 300000 or amount > 3000000:
+                flash("El monto debe estar entre $300.000 y $3.000.000.", "danger")
             elif term < 1 or term > 60:
                 flash("El plazo debe estar entre 1 y 60 meses.", "danger")
             elif not purpose:
