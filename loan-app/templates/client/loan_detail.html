@@ -59,23 +59,19 @@
           <th class="px-4 py-3 text-left">#</th>
           <th class="px-4 py-3 text-left">Vencimiento</th>
           <th class="px-4 py-3 text-right">Cuota</th>
-          <th class="px-4 py-3 text-right">Capital</th>
-          <th class="px-4 py-3 text-right">Interés</th>
-          <th class="px-4 py-3 text-right">Manejo</th>
-          <th class="px-4 py-3 text-right">Saldo</th>
+          <th class="px-4 py-3 text-right">Saldo por pagar</th>
           <th class="px-4 py-3 text-center">Estado</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
+        {% set pending = namespace(total=loan.total_payment) %}
         {% for inst in loan.installments %}
+        {% set pending.total = pending.total - inst.amount %}
         <tr class="hover:bg-gray-50 {% if inst.paid %}opacity-60{% endif %}">
           <td class="px-4 py-3 font-medium text-gray-600">{{ inst.number }}</td>
           <td class="px-4 py-3 text-gray-600">{{ inst.due_date.strftime('%d/%m/%Y') }}</td>
           <td class="px-4 py-3 text-right font-semibold text-gray-800">{{ (inst.amount)|cop }}</td>
-          <td class="px-4 py-3 text-right text-gray-600">{{ (inst.principal)|cop }}</td>
-          <td class="px-4 py-3 text-right text-orange-600">{{ (inst.interest)|cop }}</td>
-          <td class="px-4 py-3 text-right text-gray-600">{{ (inst.fee)|cop }}</td>
-          <td class="px-4 py-3 text-right text-gray-500">{{ (inst.balance)|cop }}</td>
+          <td class="px-4 py-3 text-right text-gray-500">{{ (pending.total)|cop }}</td>
           <td class="px-4 py-3 text-center">
             {% if inst.paid %}
               <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Pagado</span>
